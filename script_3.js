@@ -2,8 +2,10 @@ const canvas = document.getElementById("phase3Canvas");
 const ctx = canvas.getContext("2d");
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
 }
 
 window.addEventListener('resize', resizeCanvas);
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     canvas.addEventListener('mousemove', (event) => {
         const rect = canvas.getBoundingClientRect();
-        // Scale mouse coordinates to match canvas internal dimensions
+        
         mouse.x = (event.clientX - rect.left) * (canvas.width / rect.width);
         mouse.y = (event.clientY - rect.top) * (canvas.height / rect.height);
     });
@@ -94,31 +96,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             
-            // Mouse interaction logic
+            
             if (mouse.x !== null && mouse.y !== null) {
                 const dx = mouse.x - dot.x;
                 const dy = mouse.y - dot.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
                 if (distance < interactionDistance) {
-                    // Mouse is close - grow the particle
+                    
                     dot.targetRadius = dot.originalRadius * 5;
                 } else {
-                    // Mouse is far - return to original size
+                    
                     dot.targetRadius = dot.originalRadius;
                 }
             } else {
-                // No mouse detected - return to original size
+                
                 dot.targetRadius = dot.originalRadius;
             }
             
-            // Smooth radius transition
+            
             const diff = dot.targetRadius - dot.radius;
             if (Math.abs(diff) > 0.5) {
-                // Animate towards target
+                
                 dot.radius += diff * 0.3;
             } else {
-                // Close enough - snap to target for precise reset
+                
                 dot.radius = dot.targetRadius;
             } 
             
